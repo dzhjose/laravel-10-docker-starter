@@ -36,8 +36,6 @@ services:
       - GID=${GID:-1000}
     networks:
       - web-net
-    env_file:
-      - .env:.env
     volumes:
       - ./src:/var/www/html
 
