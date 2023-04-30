@@ -1,0 +1,44 @@
+version: "3.9"
+
+networks:
+  web-net:
+  app-net:
+  pgsql-net:
+
+services:
+
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    build: 
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    networks:
+      - web-net
+    depends_on:
+      - app-web
+    volumes:
+      - ./src:/var/www/html
+  
+  app-web:
+    container_name: app-web
+    restart: unless-stopped
+    build:
+     context: .
+     dockerfile: ./docker/php/Dockerfile
+     args:
+      - UID=${UID:-1000}
+      - GID=${GID:-1000}
+    networks:
+      - web-net
+    env_file:
+      - .env:.env
+    volumes:
+      - ./src:/var/www/html
+
+  #posgresql:

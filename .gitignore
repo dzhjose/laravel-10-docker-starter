@@ -1,0 +1,10 @@
+!.gitignore
+
+.env
+
+src/.env 
+src/vendor
+src/node_modules
+src/storage 
+
+data/
